@@ -74,7 +74,6 @@ def handleSignup(request):
         messages.success(request,"Your account has been created successfully!!!")
         return redirect('home')
 
-
     else:
         return HttpResponse("404-Not Found")   
 
@@ -102,6 +101,7 @@ def handleLogin(request):
 
     else:
         return HttpResponse("404-Not Found") 
+
 
 
 
