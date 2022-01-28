@@ -1,3 +1,6 @@
+from pyexpat import model
+from statistics import mode
+from unicodedata import category
 from django.db import models
 from numpy import ma
 
@@ -12,3 +15,17 @@ class Contact(models.Model):
     
     def __str__(self):
         return self.name
+
+
+class Product(models.Model):
+    product_id = models.AutoField(primary_key=True)
+    product_name = models.CharField(max_length=100)
+    category = models.CharField(max_length=100)
+    price = models.IntegerField()
+    description = models.CharField(max_length=400)
+    pub_date = models.DateField()
+    image = models.ImageField(upload_to="static")
+    
+
+    def __str__(self):
+        return self.product_name
