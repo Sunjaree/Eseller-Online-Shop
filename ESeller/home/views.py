@@ -46,6 +46,12 @@ def fruit(request):
 
 
 
+def search(request):
+    return HttpResponse("sfsbs")
+
+
+def checkout(request):
+    return HttpResponse("sdvsdvs")
 
 
 
