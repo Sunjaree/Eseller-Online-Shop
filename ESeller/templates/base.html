@@ -125,9 +125,21 @@
             >
             </button>
             <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="logout">My Profile</i></a></li>
+              
+
+              {%if user.is_superuser%}
+              <li><a class="dropdown-item" href="Add Items">Add Items</i></a></li>
+              {%endif%}
+
               <li><a class="dropdown-item" href="logout">Logout</i></a></li>
+
             </ul>
           </div>
+
+          {% comment %} {% if user.is_superuser %}
+          <p>ergerg</p>  {% endcomment %}
+
 
           {% else %}
           <!-- Sign-up -->

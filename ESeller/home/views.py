@@ -41,6 +41,16 @@ def contact(request):
 
 
 
+def fruit(request):
+    return render(request,'fruit.html')
+
+
+
+
+
+
+
+
 
 
 def handleSignup(request):
