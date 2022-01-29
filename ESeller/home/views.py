@@ -2,7 +2,7 @@ import django
 from django.shortcuts import render,HttpResponse,redirect
 from markupsafe import re
 from datetime import datetime
-from home.models import Contact
+from home.models import Contact, Product
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
@@ -42,7 +42,12 @@ def contact(request):
 
 
 def fruit(request):
-    return render(request,'fruit.html')
+
+    product = Product.objects.all()
+    n = len(product)
+
+    params = {'product': product, 'range':range(1,n)}
+    return render(request,'fruit.html',params)
 
 
 
