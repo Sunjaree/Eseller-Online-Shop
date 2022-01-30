@@ -24,6 +24,9 @@ urlpatterns = [
     path("meat", views.meat, name='meat'),
     path("fish", views.fish, name='fish'),
 
+    #Add product
+    path("add_product", views.add_product, name='add_product')
+
 
 
 

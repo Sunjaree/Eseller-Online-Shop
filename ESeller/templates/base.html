@@ -47,16 +47,23 @@
               <i class="bi bi-house-door"></i> Home</a>
           </li>
 
+
+          <!-- Servives = Category  -->
           <li class="nav-item dropdown ms-3">
             <a class="nav-link dropdown-toggle mt-3" href="#" id="navbarDropdown" role="button"
               data-bs-toggle="dropdown" aria-expanded="false">
-              Services
+              Category
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Food</a></li>
-              <li><a class="dropdown-item" href="#">Hygiene</a></li>
-              <li><a class="dropdown-item" href="#">Baby Care</a></li>
-              <li><a class="dropdown-item" href="#">Toys</a></li>
+              <li><a class="dropdown-item" href="/fruit">Fruit</a></li>
+              <li><a class="dropdown-item" href="/vegetable">Vegetable</a></li>
+              <li><a class="dropdown-item" href="/toy">Toys</a></li>
+              <li><a class="dropdown-item" href="/medicine">Medicines</a></li>
+              <li><a class="dropdown-item" href="/stationery">Stationery</a></li>
+              <li><a class="dropdown-item" href="/pet">Pet Accessories</a></li>
+              <li><a class="dropdown-item" href="/electric">Electric</a></li>
+              <li><a class="dropdown-item" href="/meat">Meat</a></li>
+              <li><a class="dropdown-item" href="/fish">Fish</a></li>
               <li>
                 <hr class="dropdown-divider" />
               </li>
@@ -94,7 +101,7 @@
 
 
             {%if user.is_superuser%}
-            <li><a class="dropdown-item" href="Add Items">Add Items</i></a></li>
+            <li><a class="dropdown-item" href="add_product">Add Items</i></a></li>
             {%endif%}
 
             <li><a class="dropdown-item" href="logout">Logout</i></a></li>

@@ -1,12 +1,16 @@
+from pydoc import describe
 from unicodedata import category
 import django
 from django.shortcuts import render,HttpResponse,redirect
 from markupsafe import re
 from datetime import datetime
+
+from matplotlib import image
 from home.models import Contact, Product
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
+from django.db import models
 # Create your views here.
 
 
@@ -41,6 +45,19 @@ def contact(request):
             contact.save()
             messages.success(request, 'Your response has been submitted successfully!!!')
     return render(request,'contact.html')
+
+
+
+
+
+def search(request):
+    return HttpResponse("sfsbs")
+
+
+
+def checkout(request):
+    return HttpResponse("sdvsdvs")
+
 
 
 
@@ -127,15 +144,41 @@ def fish(request):
 
 
 
-def search(request):
-    return HttpResponse("sfsbs")
+#Add Product
+
+def add_product(request):
+    if request.method=='POST':
+
+        product_name = request.POST['product_name']
+        product_category = request.POST['product_category']
+        product_price = request.POST['product_price']
+        product_photo = request.FILES['product_photo']
+        product_description = request.POST['product_description']
+    
+        add_product = Product(product_name=product_name,category=product_category,price=product_price,description=product_description, pub_date=datetime.today(),image=product_photo)
+        add_product.save()
+
+        messages.success(request, 'Product has been added successfully!!!')
+        return render(request,'index.html')    
+
+    else:
+        return HttpResponse("404-Not Found") 
 
 
-def checkout(request):
-    return HttpResponse("sdvsdvs")
 
 
 
+
+
+
+
+
+
+
+
+
+
+#Handeling Signup + Login + Logout
 def handleSignup(request):
 
     if request.method == 'POST':
