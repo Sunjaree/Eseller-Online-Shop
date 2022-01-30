@@ -1,12 +1,11 @@
-{% extends 'base.html' %} {% block title %} Fruits {% endblock title %} 
+{% extends 'base.html' %} {% block title %} Stationery {% endblock title %} 
 
 
 {% block body %}
 
 <div class="p-3 mb-1 bg-danger text-white text-center my-0">
-    <h1><b>Fruits</b></h1>
+    <h1><b>Stationery</b></h1>
 </div>
-
 
 {% if n > 0 %}
 
@@ -16,7 +15,7 @@
 
 
                 {% for i in product %}
-                    {% if i.category == "Fruit" %}
+                    {% if i.category == "Stationery" %}
                         <div class="col">
                             <div class="card shadow-sm">
                                 <img src="{{i.image}}" />

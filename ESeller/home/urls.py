@@ -12,6 +12,19 @@ urlpatterns = [
     path("logout", views.handleLogout, name="handleLogout"),
     path("search", views.search, name='search'),
     path("checkout", views.checkout, name='checkout'),
-    path("fruit", views.fruit, name='fruit')
+
+    #Products
+    path("fruit", views.fruit, name='fruit'),
+    path("vegetable", views.vegetable, name='vegetable'),
+    path("toy", views.toy, name='toy'),
+    path("medicine", views.medicine, name='medicine'),
+    path("stationery", views.stationery, name='stationery'),
+    path("pet", views.pet, name='pet'),
+    path("electric", views.electric, name='electric'),
+    path("meat", views.meat, name='meat'),
+    path("fish", views.fish, name='fish'),
+
+
+
 
 ]

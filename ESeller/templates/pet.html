@@ -1,13 +1,11 @@
-{% extends 'base.html' %} {% block title %} Fruits {% endblock title %} 
+{% extends 'base.html' %} {% block title %} Pet Accessories {% endblock title %} 
 
 
 {% block body %}
 
 <div class="p-3 mb-1 bg-danger text-white text-center my-0">
-    <h1><b>Fruits</b></h1>
+    <h1><b>Pet Accessories</b></h1>
 </div>
-
-
 {% if n > 0 %}
 
 <div class="album py-2 bg-gradient">
@@ -16,7 +14,7 @@
 
 
                 {% for i in product %}
-                    {% if i.category == "Fruit" %}
+                    {% if i.category == "Pet" %}
                         <div class="col">
                             <div class="card shadow-sm">
                                 <img src="{{i.image}}" />
@@ -51,5 +49,4 @@
 
 
 {% endif %}
-
 {% endblock body %}

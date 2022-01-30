@@ -1,3 +1,4 @@
+from unicodedata import category
 import django
 from django.shortcuts import render,HttpResponse,redirect
 from markupsafe import re
@@ -7,6 +8,9 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 # Create your views here.
+
+
+
 def index(request):
 
     context = {
@@ -41,13 +45,85 @@ def contact(request):
 
 
 
+
+
+
+
+#For Poducts
 def fruit(request):
 
     product = Product.objects.all()
-    n = len(product)
-
-    params = {'product': product, 'range':range(1,n)}
+    n = Product.objects.filter(category="Fruit").count()
+    params = {'product': product, 'range':range(1,n), 'n':n}
     return render(request,'fruit.html',params)
+
+
+def vegetable(request):
+
+    product = Product.objects.all()
+    n = Product.objects.filter(category="Vegetable").count()
+    params = {'product': product, 'range':range(1,n),'n':n}
+    return render(request,'vegetable.html',params)
+
+
+def toy(request):
+
+    product = Product.objects.all()
+    n = Product.objects.filter(category="Toy").count()
+    params = {'product': product, 'range':range(1,n),'n':n}
+    return render(request,'toy.html',params)
+
+
+def medicine(request):
+
+    product = Product.objects.all()
+    n = Product.objects.filter(category="Medicine").count()
+    params = {'product': product, 'range':range(1,n),'n':n}
+    return render(request,'medicine.html',params)
+
+
+def stationery(request):
+
+    product = Product.objects.all()
+    n = Product.objects.filter(category="Stationery").count()
+    params = {'product': product, 'range':range(1,n),'n':n}
+    return render(request,'stationery.html',params)
+
+
+def pet(request):
+
+    product = Product.objects.all()
+    n = Product.objects.filter(category="Pet").count()
+    params = {'product': product, 'range':range(1,n),'n':n}
+    return render(request,'pet.html',params)
+
+
+def electric(request):
+
+    product = Product.objects.all()
+    n = Product.objects.filter(category="Electric").count()
+    params = {'product': product, 'range':range(1,n),'n':n}
+    return render(request,'electric.html',params)
+
+
+def meat(request):
+
+    product = Product.objects.all()
+    n = Product.objects.filter(category="Meat").count()
+    params = {'product': product, 'range':range(1,n),'n':n}
+    return render(request,'meat.html',params)
+
+
+def fish(request):
+
+    product = Product.objects.all()
+    n = Product.objects.filter(category="Fish").count()
+    params = {'product': product, 'range':range(1,n),'n':n}
+    return render(request,'fish.html',params)
+
+
+
+
 
 
 
@@ -57,10 +133,6 @@ def search(request):
 
 def checkout(request):
     return HttpResponse("sdvsdvs")
-
-
-
-
 
 
 
