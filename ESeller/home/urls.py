@@ -25,7 +25,11 @@ urlpatterns = [
     path("fish", views.fish, name='fish'),
 
     #Add product
-    path("add_product", views.add_product, name='add_product')
+    path("add_product", views.add_product, name='add_product'),
+
+    #Cart and Checkout
+    path("cart", views.cart, name='cart'),
+    path("checkout", views.checkout, name='checkout')
 
 
 

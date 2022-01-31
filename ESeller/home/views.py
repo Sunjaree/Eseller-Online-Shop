@@ -144,6 +144,16 @@ def fish(request):
 
 
 
+
+#Cart
+def cart(request):
+    return render(request,'cart.html')
+
+#Checkout
+def checkout(request):
+    return render(request,'checkout.html')
+
+
 #Add Product
 
 def add_product(request):

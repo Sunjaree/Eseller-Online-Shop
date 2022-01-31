@@ -13,7 +13,6 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" />
-
   <title>{% block title %}{% endblock title %}</title>
 </head>
 
@@ -21,6 +20,10 @@
 
 
 <body>
+
+  
+
+
 
 
   <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #000000">
@@ -87,7 +90,15 @@
           <!-- <button class="btn btn-outline-success" type="submit">Search</button> -->
         </form>
 
+
+
         {% if user.is_authenticated %}
+
+        {% if user.is_superuser%}
+        {% comment %} Nothing will happen because admin can not buy products {% endcomment %}
+        {% else %}
+        <a type="button" class="btn btn-warning me-2" href="/cart"><i class="bi bi-bag-check-fill"></i> Cart(0)</a>
+        {% endif %}
 
         <div class="btn-group me-3">
           <button type="button" class="btn btn-warning">
@@ -102,6 +113,7 @@
 
             {%if user.is_superuser%}
             <li><a class="dropdown-item" href="add_product">Add Items</i></a></li>
+            <li><a class="dropdown-item" href="">View Orders</i></a></li>
             {%endif%}
 
             <li><a class="dropdown-item" href="logout">Logout</i></a></li>
