@@ -10,6 +10,8 @@ from home.models import Contact, Product
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.decorators import login_required 
+
 from django.db import models
 # Create your views here.
 
@@ -45,6 +47,18 @@ def contact(request):
             contact.save()
             messages.success(request, 'Your response has been submitted successfully!!!')
     return render(request,'contact.html')
+
+# Contact Admin
+@login_required(login_url='/login')
+def contact_admin(request):
+    if request.user.is_superuser :
+      contact = Contact.objects.all()  
+      n = Contact.objects.count()  
+      params = {'contact': contact, 'n':1}
+      return render(request,'contact_admin.html',params)
+
+    else: 
+        return render(request,'html_view_with_error',{"error" : "PERMISSION DENIED"})
 
 
 
@@ -177,9 +191,33 @@ def add_product(request):
 
 
 
+# For Deleting Product
+def delete_product(request,product_id):
+    product = Product.objects.get(pk=product_id)
+    product.delete()
+    messages.success(request, 'Product has been deleted successfully!!!')
+    return redirect("/")
 
+# For Updating Product
+def update_product(request,product_id):
 
+    if request.method=='POST':
+            product = Product.objects.get(pk=product_id)
 
+            product.product_name = request.POST['product_name']
+            product.category = request.POST['product_category']
+            product.price = request.POST['product_price']
+            product.image = request.FILES['product_photo']
+            product.description = request.POST['product_description']
+            product.pub_date = datetime.today()
+            product.save()
+
+            messages.success(request, 'Product has been updated successfully!!!')
+            return redirect("/") 
+    else:
+        return HttpResponse("404-Not Found") 
+
+    
 
 
 

@@ -29,7 +29,18 @@ urlpatterns = [
 
     #Cart and Checkout
     path("cart", views.cart, name='cart'),
-    path("checkout", views.checkout, name='checkout')
+    path("checkout", views.checkout, name='checkout'),
+
+
+    # for delete and Update
+    path("delete_product/<int:product_id>", views.delete_product, name='delete_product'),
+    path("update_product/<int:product_id>", views.update_product, name='update_product'),
+
+    #for Admin contact
+    path("contact_admin",views.contact_admin, name='contact_admin')
+
+
+
 
 
 
