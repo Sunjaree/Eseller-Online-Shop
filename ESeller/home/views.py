@@ -12,6 +12,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required 
 
+
 from django.db import models
 # Create your views here.
 
@@ -238,6 +239,12 @@ def handleSignup(request):
         email = request.POST['email']
         pass1 = request.POST['pass1']
         pass2 = request.POST['pass2']
+
+
+        if User.objects.filter(username=username).count()==1:
+            messages.warning(request, "This username already exists, Please Choose another!!!")
+            return redirect('home')
+
 
         if len(username)>10:
             messages.warning(request, " Your username must be under 10 characters")
