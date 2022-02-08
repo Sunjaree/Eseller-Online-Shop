@@ -11,7 +11,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required 
-
+import os
 
 from django.db import models
 # Create your views here.
@@ -195,6 +195,7 @@ def add_product(request):
 # For Deleting Product
 def delete_product(request,product_id):
     product = Product.objects.get(pk=product_id)
+    os.remove(product.image.path)
     product.delete()
     messages.success(request, 'Product has been deleted successfully!!!')
     return redirect("/")
@@ -204,7 +205,7 @@ def update_product(request,product_id):
 
     if request.method=='POST':
             product = Product.objects.get(pk=product_id)
-
+            os.remove(product.image.path)
             product.product_name = request.POST['product_name']
             product.category = request.POST['product_category']
             product.price = request.POST['product_price']
