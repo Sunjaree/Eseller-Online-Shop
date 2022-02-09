@@ -11,6 +11,10 @@ View Contact
 
 {% block body %}
 
+<div class=" container-fluid d-grid gap-3 col-13 mx-auto px-0">
+  <a class="btn btn-warning" style="border-radius: 0px; height:50px; border: 2px solid black;" href="replies_contact_admin" role="button"><strong>View Replies</strong></a>
+</div>
+
 <div class="container-fluid px-0 py-0 mb-5">
   <table class="table table-light table-striped mb-5">
     <thead>
@@ -57,17 +61,17 @@ View Contact
                     {% csrf_token %}
                     <div class="mb-3">
                       <label for="recipient-name" class="col-form-label" style="color:black">Recipient:</label>
-                      <input type="text" class="form-control" id="recipient_name"  name="recipient_name" value="{{i.email}}">
+                      <input type="text" class="form-control" id="recipient_name"  name="recipient_name" value="{{i.email}}" required>
                     </div>
 
                     <div class="mb-3">
                       <label for="recipient-name" class="col-form-label" style="color:black">Subject:</label>
-                      <input type="text" class="form-control" id="email_subject" name="email_subject">
+                      <input type="text" class="form-control" id="email_subject" name="email_subject" required>
                     </div>
 
                     <div class="mb-3">
                       <label for="message-text" class="col-form-label" style="color:black">Message:</label>
-                      <textarea class="form-control" id="message_text" name="message_text"></textarea>
+                      <textarea class="form-control" id="message_text" name="message_text" required></textarea>
                     </div>
                     <div class="modal-footer"></div>
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

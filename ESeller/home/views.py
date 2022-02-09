@@ -75,10 +75,6 @@ def deleteEmails_contact_admin(request,message_id):
         return redirect("contact_admin")
 
 
-
-
-
-
 # Contact Admin
 @login_required(login_url='/login')
 def contact_admin(request):
@@ -90,6 +86,13 @@ def contact_admin(request):
 
     else: 
         return render(request,'html_view_with_error',{"error" : "PERMISSION DENIED"})
+
+
+# View Sent Replies
+@login_required(login_url='/login')
+def replies_contact_admin(request):
+    if request.user.is_superuser :
+        return render(request,'replies_contact_admin.html')
 
 
 
