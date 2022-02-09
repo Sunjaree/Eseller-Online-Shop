@@ -12,6 +12,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required 
 import os
+from django.core.mail import send_mail
 
 from django.db import models
 # Create your views here.
@@ -49,11 +50,40 @@ def contact(request):
             messages.success(request, 'Your response has been submitted successfully!!!')
     return render(request,'contact.html')
 
+
+# Admin Send Email Through Contact
+def sendEmails_contact_admin(request,message_id):
+    if request.method=='POST':
+        recipient = request.POST.get('recipient_name')
+        subject = request.POST.get('email_subject')
+        message = request.POST.get('message_text')
+
+        send_mail(
+            subject,
+            message,
+            'eseller.sunjare@gmail.com',
+            [recipient],
+            fail_silently=False
+        )
+        messages.success(request, 'Message has been sent successfully!!!')
+        return redirect("contact_admin")
+
+# Admin Delete Email Through Contact
+def deleteEmails_contact_admin(request,message_id):
+        message = Contact.objects.get(pk=message_id)
+        message.delete()
+        return redirect("contact_admin")
+
+
+
+
+
+
 # Contact Admin
 @login_required(login_url='/login')
 def contact_admin(request):
     if request.user.is_superuser :
-      contact = Contact.objects.all()  
+      contact = Contact.objects.all().order_by('-date')  
       n = Contact.objects.count()  
       params = {'contact': contact, 'n':1}
       return render(request,'contact_admin.html',params)

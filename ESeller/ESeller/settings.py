@@ -134,3 +134,11 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
     '/var/www/static/',
 ]
+
+
+# For sending mails
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
+EMAIL_HOST_USER = 'eseller.sunjare@gmail.com'
+EMAIL_HOST_PASSWORD = 'hpmqmimspgaqziho'
+EMAIL_USE_TLS = True

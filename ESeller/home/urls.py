@@ -37,8 +37,9 @@ urlpatterns = [
     path("update_product/<int:product_id>", views.update_product, name='update_product'),
 
     #for Admin contact
-    path("contact_admin",views.contact_admin, name='contact_admin')
-
+    path("contact_admin",views.contact_admin, name='contact_admin'),
+    path("sendEmails_contact_admin/<int:message_id>",views.sendEmails_contact_admin, name='sendEmails_contact_admin'),
+    path("deleteEmails_contact_admin/<int:message_id>",views.deleteEmails_contact_admin, name='deleteEmails_contact_admin'),
 
 
 
