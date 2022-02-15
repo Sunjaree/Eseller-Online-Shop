@@ -6,7 +6,7 @@ from markupsafe import re
 from datetime import datetime
 
 from matplotlib import image
-from home.models import Contact, Product
+from home.models import Contact, Product, Sent_replies
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
@@ -37,7 +37,7 @@ def services(request):
 
 
 
-
+# Client Contact
 def contact(request):
     if request.method == "POST":
         name = request.POST.get("name")
@@ -49,6 +49,23 @@ def contact(request):
             contact.save()
             messages.success(request, 'Your response has been submitted successfully!!!')
     return render(request,'contact.html')
+
+
+
+# Admin Contact view
+@login_required(login_url='/login')
+def contact_admin(request):
+    if request.user.is_superuser :
+      contact = Contact.objects.all().filter(is_replied=False).order_by('-date')
+      n = Contact.objects.count()
+      params = {'contact': contact, 'n':1}
+      return render(request,'contact_admin.html',params)
+
+    else:
+        return render(request,'html_view_with_error',{"error" : "PERMISSION DENIED"})
+
+
+
 
 
 # Admin Send Email Through Contact
@@ -65,8 +82,24 @@ def sendEmails_contact_admin(request,message_id):
             [recipient],
             fail_silently=False
         )
+
+        contact = Contact.objects.get(pk=message_id)
+        contact.is_replied = True
+        contact.save()
+
+        Sent_replies.objects.create(message_sender=contact)
+        Sent_replies_message_id = Sent_replies.objects.get(message_sender__message_id=message_id)
+        Sent_replies_message_id.reply = message
+        Sent_replies_message_id.subject = subject
+        Sent_replies_message_id.save()
+
+
         messages.success(request, 'Message has been sent successfully!!!')
         return redirect("contact_admin")
+
+
+
+
 
 # Admin Delete Email Through Contact
 def deleteEmails_contact_admin(request,message_id):
@@ -75,24 +108,22 @@ def deleteEmails_contact_admin(request,message_id):
         return redirect("contact_admin")
 
 
-# Contact Admin
-@login_required(login_url='/login')
-def contact_admin(request):
-    if request.user.is_superuser :
-      contact = Contact.objects.all().order_by('-date')  
-      n = Contact.objects.count()  
-      params = {'contact': contact, 'n':1}
-      return render(request,'contact_admin.html',params)
 
-    else: 
-        return render(request,'html_view_with_error',{"error" : "PERMISSION DENIED"})
 
 
 # View Sent Replies
 @login_required(login_url='/login')
 def replies_contact_admin(request):
     if request.user.is_superuser :
-        return render(request,'replies_contact_admin.html')
+        sent_replies = Sent_replies.objects.all()
+        params = {'sent_replies': sent_replies}
+        return render(request,'replies_contact_admin.html',params)
+
+# Admin Delete Email Through Sent Replies
+def deleteEmails_Sent_replies_admin(request,message_id):
+        message = Sent_replies.objects.get(message_sender__message_id=message_id)
+        message.delete()
+        return redirect("replies_contact_admin")
 
 
 

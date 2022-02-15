@@ -41,7 +41,7 @@ urlpatterns = [
     path("sendEmails_contact_admin/<int:message_id>",views.sendEmails_contact_admin, name='sendEmails_contact_admin'),
     path("deleteEmails_contact_admin/<int:message_id>",views.deleteEmails_contact_admin, name='deleteEmails_contact_admin'),
     path("replies_contact_admin",views.replies_contact_admin, name='replies_contact_admin'),
-
+    path("deleteEmails_Sent_replies_admin/<int:message_id>",views.deleteEmails_Sent_replies_admin, name='deleteEmails_Sent_replies_admin'),
 
 
 
