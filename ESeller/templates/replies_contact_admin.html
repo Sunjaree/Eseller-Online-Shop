@@ -1,11 +1,18 @@
 {% extends 'base.html' %} {% block title %} Replies {% endblock title %} 
-{%block body %} {% for i in sent_replies %}
+
+
+{%block body %} 
+
+
+
+<div class="overflow-scroll" style="height:421px;">
+{% for i in sent_replies %}
 
 
 
 
 
-<div class="accordion" id="accordionExample">
+<div class="accordion" id="accordionExample" >
 
 
   <div class="accordion-item">
@@ -18,13 +25,16 @@
         aria-expanded="false"
         aria-controls="collapseTwo"
       >
-       
+      
+      <i class="bi bi-person-circle me-4" style="font-size: 30px"></i>
+
+
       <strong>Name: 
         {{i.message_sender.name}}
         ({{i.message_sender.email}})
         <a class="btn me-5" href="{% url 'deleteEmails_Sent_replies_admin' i.message_sender.message_id %}" role="button"><i class="bi bi-trash-fill" style="font-size: 20px"></i></a>
         <br>
-        <br>
+   
         <div class="container px-0 mx-0 mb-3">
           Comment: 
           {{i.message_sender.comment}}
@@ -56,5 +66,7 @@
 
 </div>
 
+
 {% endfor %} 
+</div>
 {% endblock body %}

@@ -269,11 +269,15 @@ def update_product(request,product_id):
 
     if request.method=='POST':
             product = Product.objects.get(pk=product_id)
-            os.remove(product.image.path)
+            
             product.product_name = request.POST['product_name']
             product.category = request.POST['product_category']
             product.price = request.POST['product_price']
-            product.image = request.FILES['product_photo']
+
+            if 'product_photo' in request.FILES:
+                os.remove(product.image.path)
+                product.image = request.FILES['product_photo']
+
             product.description = request.POST['product_description']
             product.pub_date = datetime.today()
             product.save()
