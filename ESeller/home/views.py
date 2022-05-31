@@ -1,12 +1,7 @@
-from pydoc import describe
-from unicodedata import category
-import django
 from django.shortcuts import render,HttpResponse,redirect
-from markupsafe import re
 from datetime import datetime
 
-from matplotlib import image
-from home.models import Contact, Product, Sent_replies
+from home.models import *
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
@@ -15,26 +10,19 @@ import os
 from django.core.mail import send_mail
 
 from django.db import models
+from django.http import JsonResponse
+import json
+
 # Create your views here.
 
 
 
 def index(request):
-
-    context = {
-        "var" : "45265"
-    }
-
-    return render(request,'index.html',context)
+    return render(request,'index.html')
     #return HttpResponse("Hi, How u doin?")
 
 def about(request):
     return render(request,'about.html')
-
-def services(request):
-    return render(request,'service.html')
-
-
 
 
 # Client Contact
@@ -148,7 +136,7 @@ def checkout(request):
 #For Poducts
 def fruit(request):
 
-    product = Product.objects.all()
+    product = Product.objects.filter(category="Fruit")
     n = Product.objects.filter(category="Fruit").count()
     params = {'product': product, 'range':range(1,n), 'n':n}
     return render(request,'fruit.html',params)
@@ -221,12 +209,6 @@ def fish(request):
 
 
 
-
-
-
-#Cart
-def cart(request):
-    return render(request,'cart.html')
 
 #Checkout
 def checkout(request):
@@ -371,3 +353,52 @@ def handleLogout(request):
     logout(request)
     messages.success(request,"Successfully Loggged Out")
     return redirect('home')
+
+
+
+
+def cart(request):
+
+    if request.user.is_authenticated:
+        customer = request.user
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        items = order.orderitem_set.all()
+    else:
+        items = []
+        order = {'get_cart_total':0}
+    
+    n = OrderItem.objects.count()
+    context = {'items':items, 'n':n, 'order':order}
+    return render(request, 'cart.html', context)
+
+
+def UpdateItem(request):
+    data = json.loads(request.body)
+    product_id = data['product_id']
+    action = data['action']
+    print("Action: ",action)
+    print("Product Id: ", product_id)
+
+    customer = request.user
+    product = Product.objects.get(product_id=product_id)
+
+    order,created = Order.objects.get_or_create(customer=customer, complete=False)
+    orderItem,created = OrderItem.objects.get_or_create(order=order, product=product)
+
+    if action=='add' and orderItem.quantity<5:
+        orderItem.quantity = (orderItem.quantity + 1)
+    elif action=='remove':
+        orderItem.quantity = (orderItem.quantity - 1)
+    elif action == 'cancel':
+        orderItem.quantity = 0
+    else:
+        messages.warning(request,"Sorry, You can not add more than 5 same type of item")
+    
+    orderItem.save()
+
+    if orderItem.quantity<=0:
+        orderItem.delete()
+
+    
+
+    return JsonResponse('Item added', safe=False)

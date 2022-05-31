@@ -5,7 +5,6 @@ from home import views
 urlpatterns = [
     path("", views.index, name='home'),
     path("about", views.about, name='about'),
-    path("services", views.services, name='services'),
     path("contact", views.contact, name='contact'),
     path("signup", views.handleSignup, name="handleSignup"),
     path("login", views.handleLogin, name="handleLogin"),
@@ -43,6 +42,9 @@ urlpatterns = [
     path("replies_contact_admin",views.replies_contact_admin, name='replies_contact_admin'),
     path("deleteEmails_Sent_replies_admin/<int:message_id>",views.deleteEmails_Sent_replies_admin, name='deleteEmails_Sent_replies_admin'),
 
+
+    path("cart", views.cart, name="cart"),
+    path("update_item", views.UpdateItem, name="update_item"),
 
 
 

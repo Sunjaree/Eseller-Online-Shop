@@ -12,12 +12,19 @@ Checkout
 
 {% block body %}
 
+<style>
+
+    .hidden {
+        display: none;
+    }
+</style>
 
 <div class="container mt-4">
-
     <div class="col-md-7 col-lg-12">
         <h4 class="mb-3"><h1>Billing address</h1></h4>
-        <form class="needs-validation was-validated" novalidate="">
+
+
+        <form class="needs-validation was-validated" id="form" novalidate="">
             <div class="row g-3">
                 <div class="col-sm-6">
                     <label for="firstName" class="form-label">First name</label>
@@ -47,8 +54,16 @@ Checkout
                 </div>
 
                 <div class="col-12">
-                    <label for="email" class="form-label">Email <span class="text-muted">(Optional)</span></label>
-                    <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                    <label for="number" class="form-label">Phone Number</label>
+                    <input type="phone number" class="form-control" id="number" placeholder="0175***" required="">
+                    <div class="invalid-feedback">
+                        Please enter your phone number.
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="you@example.com" required="">
                     <div class="invalid-feedback">
                         Please enter a valid email address for shipping updates.
                     </div>
@@ -61,48 +76,20 @@ Checkout
                         Please enter your shipping address.
                     </div>
                 </div>
-
-                <div class="col-12">
-                    <label for="address2" class="form-label">Address 2 <span
-                            class="text-muted">(Optional)</span></label>
-                    <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
-                </div>
-
-                <div class="col-md-5">
-                    <label for="country" class="form-label">Country</label>
-                    <select class="form-select" id="country" required="">
-                        <option value="">Choose...</option>
-                        <option>United States</option>
-                    </select>
-                    <div class="invalid-feedback">
-                        Please select a valid country.
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <label for="state" class="form-label">State</label>
-                    <select class="form-select" id="state" required="">
-                        <option value="">Choose...</option>
-                        <option>California</option>
-                    </select>
-                    <div class="invalid-feedback">
-                        Please provide a valid state.
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <label for="zip" class="form-label">Zip</label>
-                    <input type="text" class="form-control" id="zip" placeholder="" required="">
-                    <div class="invalid-feedback">
-                        Zip code required.
-                    </div>
-                </div>
             </div>
+            
+            <button id="form-button"  class="w-100 btn btn-warning btn-lg mt-4 mb-4" type="submit" value="Continue">Make Payment</button>
+        </form>
+
+
+
+
 
             <hr class="my-4">
 
             <hr class="my-4">
 
+            <div id="payment" class="hidden">
             <h4 class="mb-3">Payment</h4>
 
             <div class="my-3">
@@ -155,16 +142,34 @@ Checkout
                     </div>
                 </div>
             </div>
-
+        
             <hr class="my-4">
             
             <a class="w-100 btn btn-warning btn-lg mt-4" href="/cart">Edit Cart </a>
-            <button class="w-100 btn btn-warning btn-lg mt-4" type="submit">Continue</button>
+            <button class="w-100 btn btn-warning btn-lg mt-4 mb-4" type="submit">Continue</button>
+            
         </form>
     </div>
+</div>
 
 
 </div>
+
+
+
+<script>
+
+
+    var form = document.getElementById("form")
+    form.addEventListener('submit', function(e){
+		e.preventDefault()
+		console.log('Form Submitted')
+		document.getElementById("payment").classList.remove("hidden")
+		
+
+	})
+
+</script>
 
 
 {% endblock body %}
