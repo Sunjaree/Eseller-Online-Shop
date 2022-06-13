@@ -13,13 +13,13 @@ from django.db import models
 from django.http import JsonResponse
 import json
 
-# Create your views here.
 
 
 
 def index(request):
     return render(request,'index.html')
     #return HttpResponse("Hi, How u doin?")
+
 
 def about(request):
     return render(request,'about.html')
@@ -39,7 +39,6 @@ def contact(request):
     return render(request,'contact.html')
 
 
-
 # Admin Contact view
 @login_required(login_url='/login')
 def contact_admin(request):
@@ -51,9 +50,6 @@ def contact_admin(request):
 
     else:
         return render(request,'html_view_with_error',{"error" : "PERMISSION DENIED"})
-
-
-
 
 
 # Admin Send Email Through Contact
@@ -81,12 +77,8 @@ def sendEmails_contact_admin(request,message_id):
         Sent_replies_message_id.subject = subject
         Sent_replies_message_id.save()
 
-
         messages.success(request, 'Message has been sent successfully!!!')
         return redirect("contact_admin")
-
-
-
 
 
 # Admin Delete Email Through Contact
@@ -94,9 +86,6 @@ def deleteEmails_contact_admin(request,message_id):
         message = Contact.objects.get(pk=message_id)
         message.delete()
         return redirect("contact_admin")
-
-
-
 
 
 # View Sent Replies
@@ -107,6 +96,7 @@ def replies_contact_admin(request):
         params = {'sent_replies': sent_replies}
         return render(request,'replies_contact_admin.html',params)
 
+
 # Admin Delete Email Through Sent Replies
 def deleteEmails_Sent_replies_admin(request,message_id):
         message = Sent_replies.objects.get(message_sender__message_id=message_id)
@@ -114,28 +104,12 @@ def deleteEmails_Sent_replies_admin(request,message_id):
         return redirect("replies_contact_admin")
 
 
-
-
-
 def search(request):
     return HttpResponse("sfsbs")
 
 
-
-def checkout(request):
-    return HttpResponse("sdvsdvs")
-
-
-
-
-
-
-
-
-
 #For Poducts
 def fruit(request):
-
     product = Product.objects.filter(category="Fruit")
     n = Product.objects.filter(category="Fruit").count()
     params = {'product': product, 'range':range(1,n), 'n':n}
@@ -143,7 +117,6 @@ def fruit(request):
 
 
 def vegetable(request):
-
     product = Product.objects.all()
     n = Product.objects.filter(category="Vegetable").count()
     params = {'product': product, 'range':range(1,n),'n':n}
@@ -151,7 +124,6 @@ def vegetable(request):
 
 
 def toy(request):
-
     product = Product.objects.all()
     n = Product.objects.filter(category="Toy").count()
     params = {'product': product, 'range':range(1,n),'n':n}
@@ -159,7 +131,6 @@ def toy(request):
 
 
 def medicine(request):
-
     product = Product.objects.all()
     n = Product.objects.filter(category="Medicine").count()
     params = {'product': product, 'range':range(1,n),'n':n}
@@ -167,7 +138,6 @@ def medicine(request):
 
 
 def stationery(request):
-
     product = Product.objects.all()
     n = Product.objects.filter(category="Stationery").count()
     params = {'product': product, 'range':range(1,n),'n':n}
@@ -175,7 +145,6 @@ def stationery(request):
 
 
 def pet(request):
-
     product = Product.objects.all()
     n = Product.objects.filter(category="Pet").count()
     params = {'product': product, 'range':range(1,n),'n':n}
@@ -183,7 +152,6 @@ def pet(request):
 
 
 def electric(request):
-
     product = Product.objects.all()
     n = Product.objects.filter(category="Electric").count()
     params = {'product': product, 'range':range(1,n),'n':n}
@@ -191,7 +159,6 @@ def electric(request):
 
 
 def meat(request):
-
     product = Product.objects.all()
     n = Product.objects.filter(category="Meat").count()
     params = {'product': product, 'range':range(1,n),'n':n}
@@ -199,15 +166,10 @@ def meat(request):
 
 
 def fish(request):
-
     product = Product.objects.all()
     n = Product.objects.filter(category="Fish").count()
     params = {'product': product, 'range':range(1,n),'n':n}
     return render(request,'fish.html',params)
-
-
-
-
 
 
 #Checkout
@@ -216,10 +178,8 @@ def checkout(request):
 
 
 #Add Product
-
 def add_product(request):
     if request.method=='POST':
-
         product_name = request.POST['product_name']
         product_category = request.POST['product_category']
         product_price = request.POST['product_price']
@@ -236,8 +196,6 @@ def add_product(request):
         return HttpResponse("404-Not Found") 
 
 
-
-
 # For Deleting Product
 def delete_product(request,product_id):
     product = Product.objects.get(pk=product_id)
@@ -246,9 +204,9 @@ def delete_product(request,product_id):
     messages.success(request, 'Product has been deleted successfully!!!')
     return redirect("/")
 
+
 # For Updating Product
 def update_product(request,product_id):
-
     if request.method=='POST':
             product = Product.objects.get(pk=product_id)
             
@@ -270,20 +228,9 @@ def update_product(request,product_id):
         return HttpResponse("404-Not Found") 
 
     
-
-
-
-
-
-
-
-
 #Handeling Signup + Login + Logout
 def handleSignup(request):
-
     if request.method == 'POST':
-
-        #Get the post parameters
         username = request.POST['username']
         fname = request.POST['fname']
         lname = request.POST['lname']
@@ -320,11 +267,6 @@ def handleSignup(request):
         return HttpResponse("404-Not Found")   
 
 
-
-
-
-
-
 def handleLogin(request):
 
     if request.method=='POST':
@@ -345,20 +287,13 @@ def handleLogin(request):
         return HttpResponse("404-Not Found") 
 
 
-
-
-
-
 def handleLogout(request):
     logout(request)
     messages.success(request,"Successfully Loggged Out")
     return redirect('home')
 
 
-
-
 def cart(request):
-
     if request.user.is_authenticated:
         customer = request.user
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
@@ -399,6 +334,16 @@ def UpdateItem(request):
     if orderItem.quantity<=0:
         orderItem.delete()
 
-    
-
     return JsonResponse('Item added', safe=False)
+
+def processOrder(request):
+    transaction_id = datetime.datetime.now.timestamp()
+    data = json.loads(request.body)
+    
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order,created = Order.objects.get_or_create(customer=customer, complete=False)
+    else:
+        print("not logged in")
+        return JsonResponse('item added', safe=False)
+    

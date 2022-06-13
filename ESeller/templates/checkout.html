@@ -28,7 +28,7 @@ Checkout
             <div class="row g-3">
                 <div class="col-sm-6">
                     <label for="firstName" class="form-label">First name</label>
-                    <input type="text" class="form-control" id="firstName" placeholder="" value="" required="">
+                    <input type="text" class="form-control" id="first_name" placeholder="" value="" required="">
                     <div class="invalid-feedback">
                         Valid first name is required.
                     </div>
@@ -36,7 +36,7 @@ Checkout
 
                 <div class="col-sm-6">
                     <label for="lastName" class="form-label">Last name</label>
-                    <input type="text" class="form-control" id="lastName" placeholder="" value="" required="">
+                    <input type="text" class="form-control" id="last_name" placeholder="" value="" required="">
                     <div class="invalid-feedback">
                         Valid last name is required.
                     </div>
@@ -85,27 +85,32 @@ Checkout
 
 
 
-            <hr class="my-4">
+        <hr class="my-4">
 
-            <hr class="my-4">
+        <hr class="my-4">
 
-            <div id="payment" class="hidden">
-            <h4 class="mb-3">Payment</h4>
+        <div id="payment" class="hidden">
+        <h4 class="mb-3">Payment</h4>
 
+        <form class="needs-validation was-validated" id="form" novalidate="">
             <div class="my-3">
+
                 <div class="form-check">
                     <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked=""
                         required="">
                     <label class="form-check-label" for="credit">Credit card</label>
                 </div>
+
                 <div class="form-check">
                     <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required="">
                     <label class="form-check-label" for="debit">Debit card</label>
                 </div>
+
                 <div class="form-check">
                     <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required="">
                     <label class="form-check-label" for="paypal">PayPal</label>
                 </div>
+
             </div>
 
             <div class="row gy-3">
@@ -159,15 +164,54 @@ Checkout
 
 <script>
 
+    var total = '{{order.get_cart_total}}'
 
     var form = document.getElementById("form")
     form.addEventListener('submit', function(e){
 		e.preventDefault()
 		console.log('Form Submitted')
 		document.getElementById("payment").classList.remove("hidden")
-		
-
+		submitFormData()
 	})
+
+    function submitFormData(){
+        
+        
+        var shippingInfo = {
+            
+        'first_name' : form.first_name.value,
+        'last_name' : form.last_name.value,
+        'username' : form.username.value,
+        'phone' : form.number.value,
+        'email' : form.email.value,
+        'address' : form.address.value
+        }
+
+        
+
+
+
+
+        var url = "process_order"
+        fetch(url, {
+
+            method: 'POST',
+            headers:{
+              'Content-Type' : 'application/json',
+              'X-CSRFToken': csrftoken,
+            },
+
+            body: JSON.stringify({'form':shippingInfo})
+        })
+
+        .then((response) => response.json())
+		.then((data) => {
+			console.log('Success:', data);
+			alert('Transaction Complete');
+			window.location.href = "{% url 'about' %}"
+		})
+    }
+
 
 </script>
 
