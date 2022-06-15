@@ -139,7 +139,7 @@
         
         {% comment %} Nothing will happen because admin can not buy products {% endcomment %}
         {% else %}
-        <a type="button" class="btn btn-warning me-2" href="/cart"><i class="bi bi-bag-check-fill"></i> Cart(<b>{{n}}</b>)</a>
+        <a type="button" class="btn btn-warning me-2" href="/cart"><i class="bi bi-bag-check-fill"></i> Cart(<b>{{number_of_product_in_cart}}</b>)</a>
 
 
         {% endif %}
@@ -347,7 +347,7 @@
 
 
 
-<script src="{% static 'js/cart.js' %}"></script>
+
 
 
 <script>

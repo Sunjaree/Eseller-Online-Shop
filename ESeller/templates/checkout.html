@@ -184,7 +184,8 @@ Checkout
         'username' : form.username.value,
         'phone' : form.number.value,
         'email' : form.email.value,
-        'address' : form.address.value
+        'address' : form.address.value,
+        'total' : total,
         }
 
         
@@ -201,7 +202,7 @@ Checkout
               'X-CSRFToken': csrftoken,
             },
 
-            body: JSON.stringify({'form':shippingInfo})
+            body: JSON.stringify({'shipping':shippingInfo})
         })
 
         .then((response) => response.json())

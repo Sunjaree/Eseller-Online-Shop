@@ -1,5 +1,5 @@
 from django.shortcuts import render,HttpResponse,redirect
-from datetime import datetime
+import datetime
 
 from home.models import *
 from django.contrib import messages
@@ -172,9 +172,6 @@ def fish(request):
     return render(request,'fish.html',params)
 
 
-#Checkout
-def checkout(request):
-    return render(request,'checkout.html')
 
 
 #Add Product
@@ -302,9 +299,21 @@ def cart(request):
         items = []
         order = {'get_cart_total':0}
     
-    n = OrderItem.objects.count()
-    context = {'items':items, 'n':n, 'order':order}
+    number_of_product_in_cart = order.get_cart_items
+    context = {'items':items, 'number_of_product_in_cart':number_of_product_in_cart, 'order':order}
     return render(request, 'cart.html', context)
+
+
+def checkout(request):
+
+    if request.user.is_authenticated:
+        customer = request.user
+        order,created = Order.objects.get_or_create(customer=customer, complete=False)
+        items = order.orderitem_set.all()
+        cartItems = order.get_cart_items
+
+    context = {'items': items, 'order': order, 'cartItems': cartItems}
+    return render(request, 'checkout.html', context)
 
 
 def UpdateItem(request):
@@ -337,12 +346,37 @@ def UpdateItem(request):
     return JsonResponse('Item added', safe=False)
 
 def processOrder(request):
-    transaction_id = datetime.datetime.now.timestamp()
-    data = json.loads(request.body)
     
+    transaction_id = datetime.now().timestamp()
+    data = json.loads(request.body)
+
     if request.user.is_authenticated:
-        customer = request.user.customer
+        customer = request.user
         order,created = Order.objects.get_or_create(customer=customer, complete=False)
+        total = data['shipping']['total']
+        order.transaction_id = transaction_id
+
+        if float(total) == order.get_cart_total:
+            order.complete = True
+
+
+        order.save()
+
+        ShippingAddress.objects.create(
+
+            customer= request.user,
+            order=order,
+            first_name = data['shipping']['first_name'],
+            last_name = data['shipping']['last_name'],
+            username = data['shipping']['username'],
+            phone_number = data['shipping']['phone'],
+            email = data['shipping']['email'],
+            address=data['shipping']['address'],
+            
+        )
+
+        return JsonResponse('Payment Complete', safe=False)
+
     else:
         print("not logged in")
         return JsonResponse('item added', safe=False)
