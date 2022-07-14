@@ -17,26 +17,53 @@ import json
 
 
 def index(request):
-    return render(request,'index.html')
+
+    params = {}
+    if request.user.is_authenticated:
+        customer = request.user
+        order,created = Order.objects.get_or_create(customer=customer, complete=False)
+        number_of_product_in_cart = order.get_cart_items
+        params = {'number_of_product_in_cart': number_of_product_in_cart}
+    
+
+
+    return render(request,'index.html',params)
     #return HttpResponse("Hi, How u doin?")
 
 
 def about(request):
-    return render(request,'about.html')
+    
+    params = {}
+    if request.user.is_authenticated:
+        customer = request.user
+        order,created = Order.objects.get_or_create(customer=customer, complete=False)
+        number_of_product_in_cart = order.get_cart_items
+        params = {'number_of_product_in_cart': number_of_product_in_cart}
+
+    return render(request,'about.html', params)
 
 
 # Client Contact
 def contact(request):
+    
+    params = {}
+    if request.user.is_authenticated:
+        customer = request.user
+        order,created = Order.objects.get_or_create(customer=customer, complete=False)
+        number_of_product_in_cart = order.get_cart_items
+        params = {'number_of_product_in_cart': number_of_product_in_cart}
+
     if request.method == "POST":
         name = request.POST.get("name")
         email = request.POST.get("email")
         phone = request.POST.get("phone")
         comment = request.POST.get("comment")
+
         if name!="":
             contact = Contact(name=name,email=email,phone=phone,comment=comment,date=datetime.today())
             contact.save()
             messages.success(request, 'Your response has been submitted successfully!!!')
-    return render(request,'contact.html')
+    return render(request,'contact.html', params)
 
 
 # Admin Contact view
@@ -109,10 +136,21 @@ def search(request):
 
 
 #For Poducts
+
 def fruit(request):
     product = Product.objects.filter(category="Fruit")
     n = Product.objects.filter(category="Fruit").count()
-    params = {'product': product, 'range':range(1,n), 'n':n}
+
+    
+    if request.user.is_authenticated:
+        customer = request.user
+        order,created = Order.objects.get_or_create(customer=customer, complete=False)
+        number_of_product_in_cart = order.get_cart_items
+        params = {'product': product, 'range':range(1,n), 'n':n, 'number_of_product_in_cart': number_of_product_in_cart}
+
+    else:
+        params = {'product': product, 'range':range(1,n), 'n':n}
+
     return render(request,'fruit.html',params)
 
 
@@ -311,8 +349,9 @@ def checkout(request):
         order,created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
+        number_of_product_in_cart = order.get_cart_items
 
-    context = {'items': items, 'order': order, 'cartItems': cartItems}
+    context = {'items': items, 'order': order, 'cartItems': cartItems, 'number_of_product_in_cart': number_of_product_in_cart}
     return render(request, 'checkout.html', context)
 
 
@@ -344,6 +383,7 @@ def UpdateItem(request):
         orderItem.delete()
 
     return JsonResponse('Item added', safe=False)
+
 
 def processOrder(request):
     

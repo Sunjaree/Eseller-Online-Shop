@@ -25,7 +25,7 @@ Checkout
 
 
         <form class="needs-validation was-validated" id="form" novalidate="">
-            <div class="row g-3">
+            <div class="row g-3 mb-4">
                 <div class="col-sm-6">
                     <label for="firstName" class="form-label">First name</label>
                     <input type="text" class="form-control" id="first_name" placeholder="" value="" required="">
@@ -78,82 +78,56 @@ Checkout
                 </div>
             </div>
             
-            <button id="form-button"  class="w-100 btn btn-warning btn-lg mt-4 mb-4" type="submit" value="Continue">Make Payment</button>
+            <div id="paypal-button-container"></div>
+            <script src="https://www.paypal.com/sdk/js?client-id=ASlOdehxQUO6DPB4UE0ZAYWcr0APE2qT_tGxnweJCt0jxrl4UNBKR1wP2z__pRZvWVRJWxQFNBME8_jq&currency=USD&disable-funding=credit"></script>
+            <script>
+
+                var total = '{{order.get_cart_total}}'
+                // Render the PayPal button into #paypal-button-container
+                paypal.Buttons({
+
+                    style: {
+                        size: 'pill',
+                        color: 'gold',
+                        layout: 'vertical',
+                        
+                        },
+
+                    // Set up the transaction
+                    createOrder: function(data, actions) {
+                        return actions.order.create({
+                            purchase_units: [{
+                                amount: {
+                                    value: total
+                                }
+                            }]
+                        });
+                    },
+
+                    // Finalize the transaction
+                    onApprove: function(data, actions) {
+                        return actions.order.capture().then(function(orderData) {
+                            // Successful capture! For demo purposes:
+                            console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                            var transaction = orderData.purchase_units[0].payments.captures[0];
+                            submitFormData()
+                            // Replace the above to show a success message within this page, e.g.
+                            // const element = document.getElementById('paypal-button-container');
+                            // element.innerHTML = '';
+                            // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+                            // Or go to another URL:  actions.redirect('thank_you.html');
+                        });
+                    }
+
+
+                }).render('#paypal-button-container');
+            </script>
         </form>
 
-
-
-
-
-        <hr class="my-4">
-
-        <hr class="my-4">
-
-        <div id="payment" class="hidden">
-        <h4 class="mb-3">Payment</h4>
-
-        <form class="needs-validation was-validated" id="form" novalidate="">
-            <div class="my-3">
-
-                <div class="form-check">
-                    <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked=""
-                        required="">
-                    <label class="form-check-label" for="credit">Credit card</label>
-                </div>
-
-                <div class="form-check">
-                    <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required="">
-                    <label class="form-check-label" for="debit">Debit card</label>
-                </div>
-
-                <div class="form-check">
-                    <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required="">
-                    <label class="form-check-label" for="paypal">PayPal</label>
-                </div>
-
-            </div>
-
-            <div class="row gy-3">
-                <div class="col-md-6">
-                    <label for="cc-name" class="form-label">Name on card</label>
-                    <input type="text" class="form-control" id="cc-name" placeholder="" required="">
-                    <small class="text-muted">Full name as displayed on card</small>
-                    <div class="invalid-feedback">
-                        Name on card is required
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <label for="cc-number" class="form-label">Credit card number</label>
-                    <input type="text" class="form-control" id="cc-number" placeholder="" required="">
-                    <div class="invalid-feedback">
-                        Credit card number is required
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <label for="cc-expiration" class="form-label">Expiration</label>
-                    <input type="text" class="form-control" id="cc-expiration" placeholder="" required="">
-                    <div class="invalid-feedback">
-                        Expiration date required
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <label for="cc-cvv" class="form-label">CVV</label>
-                    <input type="text" class="form-control" id="cc-cvv" placeholder="" required="">
-                    <div class="invalid-feedback">
-                        Security code required
-                    </div>
-                </div>
-            </div>
-        
-            <hr class="my-4">
             
-            <a class="w-100 btn btn-warning btn-lg mt-4" href="/cart">Edit Cart </a>
-            <button class="w-100 btn btn-warning btn-lg mt-4 mb-4" type="submit">Continue</button>
+        <button class="w-100 btn btn-warning btn-lg mt-4 mb-4" type="submit">Edit Cart</button>
             
-        </form>
+
     </div>
 </div>
 
@@ -162,9 +136,13 @@ Checkout
 
 
 
+
+
+
+
 <script>
 
-    var total = '{{order.get_cart_total}}'
+    
 
     var form = document.getElementById("form")
     form.addEventListener('submit', function(e){
