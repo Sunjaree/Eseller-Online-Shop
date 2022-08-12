@@ -1,10 +1,10 @@
-{% extends 'base.html' %} {% block title %} Meat {% endblock title %}
+{% extends 'base.html' %} {% block title %} Meats {% endblock title %}
 
 
 {% block body %}
 
 <div class="p-3 mb-1 bg-danger text-white text-center my-0">
-    <h1><b>Meat</b></h1>
+    <h1><b>Meats</b></h1>
 </div>
 
 
@@ -17,10 +17,9 @@
 
 
             {% for i in product %}
-            {% if i.category == "Meat" %}
             <div class="col">
-                <div class="card shadow-sm">
-                    <img src="{{i.image}}" width="360px" height="300px" />
+                <div class="card shadow-sm product_data">
+                    <img src="{{i.image}}" width="360px" height="300px"/>
 
 
                     <!-- For Updating Products -->
@@ -133,7 +132,8 @@
 
                         <!-- Modal -->
                         <div class="modal fade" id="DeleteModal-{{ forloop.counter }}" tabindex="-1"
-                            aria-labelledby="DeleteModalLabel" aria-hidden="true">
+                            
+                         aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -169,7 +169,15 @@
                             <div class="price text-success">
                                 <h5 class="mt-4">Price: {{i.price}} BDT</h5>
                             </div>
-                            <a href="#" class="btn btn-danger mt-3"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+
+
+                            
+                        <button data-product="{{i.product_id}}"" data-action="add" class="btn btn-danger add-btn update-cart" style="height:100%;">
+                                <i class="fa fa-shopping-cart"></i> Add to Cart</button>
+
+                           
+
+
                         </div>
 
 
@@ -178,7 +186,6 @@
                     </div>
                 </div>
             </div>
-            {% endif %}
             {% endfor %}
 
 
@@ -381,5 +388,6 @@
 
 
 {% endif %}
+
 
 {% endblock body %}

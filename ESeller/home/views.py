@@ -155,58 +155,140 @@ def fruit(request):
 
 
 def vegetable(request):
-    product = Product.objects.all()
+    product = Product.objects.filter(category="Vegetable")
     n = Product.objects.filter(category="Vegetable").count()
-    params = {'product': product, 'range':range(1,n),'n':n}
+
+    
+    if request.user.is_authenticated:
+        customer = request.user
+        order,created = Order.objects.get_or_create(customer=customer, complete=False)
+        number_of_product_in_cart = order.get_cart_items
+        params = {'product': product, 'range':range(1,n), 'n':n, 'number_of_product_in_cart': number_of_product_in_cart}
+
+    else:
+        params = {'product': product, 'range':range(1,n), 'n':n}
+
     return render(request,'vegetable.html',params)
 
 
+
 def toy(request):
-    product = Product.objects.all()
+    product = Product.objects.filter(category="Toy")
     n = Product.objects.filter(category="Toy").count()
-    params = {'product': product, 'range':range(1,n),'n':n}
+
+    
+    if request.user.is_authenticated:
+        customer = request.user
+        order,created = Order.objects.get_or_create(customer=customer, complete=False)
+        number_of_product_in_cart = order.get_cart_items
+        params = {'product': product, 'range':range(1,n), 'n':n, 'number_of_product_in_cart': number_of_product_in_cart}
+
+    else:
+        params = {'product': product, 'range':range(1,n), 'n':n}
+
     return render(request,'toy.html',params)
 
 
+
 def medicine(request):
-    product = Product.objects.all()
+    product = Product.objects.filter(category="Medicine")
     n = Product.objects.filter(category="Medicine").count()
-    params = {'product': product, 'range':range(1,n),'n':n}
+
+    
+    if request.user.is_authenticated:
+        customer = request.user
+        order,created = Order.objects.get_or_create(customer=customer, complete=False)
+        number_of_product_in_cart = order.get_cart_items
+        params = {'product': product, 'range':range(1,n), 'n':n, 'number_of_product_in_cart': number_of_product_in_cart}
+
+    else:
+        params = {'product': product, 'range':range(1,n), 'n':n}
+
     return render(request,'medicine.html',params)
 
 
 def stationery(request):
-    product = Product.objects.all()
+    product = Product.objects.filter(category="Stationery")
     n = Product.objects.filter(category="Stationery").count()
-    params = {'product': product, 'range':range(1,n),'n':n}
+
+    
+    if request.user.is_authenticated:
+        customer = request.user
+        order,created = Order.objects.get_or_create(customer=customer, complete=False)
+        number_of_product_in_cart = order.get_cart_items
+        params = {'product': product, 'range':range(1,n), 'n':n, 'number_of_product_in_cart': number_of_product_in_cart}
+
+    else:
+        params = {'product': product, 'range':range(1,n), 'n':n}
+
     return render(request,'stationery.html',params)
 
 
 def pet(request):
-    product = Product.objects.all()
+    product = Product.objects.filter(category="Pet")
     n = Product.objects.filter(category="Pet").count()
-    params = {'product': product, 'range':range(1,n),'n':n}
+
+    
+    if request.user.is_authenticated:
+        customer = request.user
+        order,created = Order.objects.get_or_create(customer=customer, complete=False)
+        number_of_product_in_cart = order.get_cart_items
+        params = {'product': product, 'range':range(1,n), 'n':n, 'number_of_product_in_cart': number_of_product_in_cart}
+
+    else:
+        params = {'product': product, 'range':range(1,n), 'n':n}
+
     return render(request,'pet.html',params)
 
 
 def electric(request):
-    product = Product.objects.all()
+    product = Product.objects.filter(category="Electric")
     n = Product.objects.filter(category="Electric").count()
-    params = {'product': product, 'range':range(1,n),'n':n}
+
+    
+    if request.user.is_authenticated:
+        customer = request.user
+        order,created = Order.objects.get_or_create(customer=customer, complete=False)
+        number_of_product_in_cart = order.get_cart_items
+        params = {'product': product, 'range':range(1,n), 'n':n, 'number_of_product_in_cart': number_of_product_in_cart}
+
+    else:
+        params = {'product': product, 'range':range(1,n), 'n':n}
+
     return render(request,'electric.html',params)
 
 
 def meat(request):
-    product = Product.objects.all()
+    product = Product.objects.filter(category="Meat")
     n = Product.objects.filter(category="Meat").count()
-    params = {'product': product, 'range':range(1,n),'n':n}
+
+    
+    if request.user.is_authenticated:
+        customer = request.user
+        order,created = Order.objects.get_or_create(customer=customer, complete=False)
+        number_of_product_in_cart = order.get_cart_items
+        params = {'product': product, 'range':range(1,n), 'n':n, 'number_of_product_in_cart': number_of_product_in_cart}
+
+    else:
+        params = {'product': product, 'range':range(1,n), 'n':n}
+
     return render(request,'meat.html',params)
 
 
 def fish(request):
-    product = Product.objects.all()
+    product = Product.objects.filter(category="Fish")
     n = Product.objects.filter(category="Fish").count()
-    params = {'product': product, 'range':range(1,n),'n':n}
+
+    
+    if request.user.is_authenticated:
+        customer = request.user
+        order,created = Order.objects.get_or_create(customer=customer, complete=False)
+        number_of_product_in_cart = order.get_cart_items
+        params = {'product': product, 'range':range(1,n), 'n':n, 'number_of_product_in_cart': number_of_product_in_cart}
+
+    else:
+        params = {'product': product, 'range':range(1,n), 'n':n}
+
     return render(request,'fish.html',params)
 
 
