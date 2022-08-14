@@ -21,8 +21,13 @@ def index(request):
     params = {}
     if request.user.is_authenticated:
         customer = request.user
-        order,created = Order.objects.get_or_create(customer=customer, complete=False)
-        number_of_product_in_cart = order.get_cart_items
+
+        if Order.objects.filter(customer=customer,complete=False).count():
+            order = Order.objects.get(customer=customer,complete=False)
+            number_of_product_in_cart = order.get_cart_items
+        else:
+            number_of_product_in_cart = 0
+
         params = {'number_of_product_in_cart': number_of_product_in_cart}
     
 
@@ -32,15 +37,17 @@ def index(request):
 
 
 def about(request):
-    
-    params = {}
-    if request.user.is_authenticated:
-        customer = request.user
-        order,created = Order.objects.get_or_create(customer=customer, complete=False)
-        number_of_product_in_cart = order.get_cart_items
-        params = {'number_of_product_in_cart': number_of_product_in_cart}
 
-    return render(request,'about.html', params)
+    customer = request.user
+    if request.user.is_authenticated and Order.objects.filter(customer=customer,complete=False).count():
+        order = Order.objects.get(customer=customer,complete=False)
+        number_of_product_in_cart = order.get_cart_items
+    else:
+        number_of_product_in_cart = 0
+            
+    params = {'number_of_product_in_cart': number_of_product_in_cart}
+
+    return render(request,'about.html',params)
 
 
 # Client Contact
@@ -49,8 +56,13 @@ def contact(request):
     params = {}
     if request.user.is_authenticated:
         customer = request.user
-        order,created = Order.objects.get_or_create(customer=customer, complete=False)
-        number_of_product_in_cart = order.get_cart_items
+
+        if Order.objects.filter(customer=customer,complete=False).count():
+            order = Order.objects.get(customer=customer,complete=False)
+            number_of_product_in_cart = order.get_cart_items
+        else:
+            number_of_product_in_cart = 0
+
         params = {'number_of_product_in_cart': number_of_product_in_cart}
 
     if request.method == "POST":
@@ -144,8 +156,13 @@ def fruit(request):
     
     if request.user.is_authenticated:
         customer = request.user
-        order,created = Order.objects.get_or_create(customer=customer, complete=False)
-        number_of_product_in_cart = order.get_cart_items
+
+        if Order.objects.filter(customer=customer,complete=False).count():
+            order = Order.objects.get(customer=customer,complete=False)
+            number_of_product_in_cart = order.get_cart_items
+        else:
+            number_of_product_in_cart = 0
+
         params = {'product': product, 'range':range(1,n), 'n':n, 'number_of_product_in_cart': number_of_product_in_cart}
 
     else:
@@ -161,8 +178,13 @@ def vegetable(request):
     
     if request.user.is_authenticated:
         customer = request.user
-        order,created = Order.objects.get_or_create(customer=customer, complete=False)
-        number_of_product_in_cart = order.get_cart_items
+
+        if Order.objects.filter(customer=customer,complete=False).count():
+            order = Order.objects.get(customer=customer,complete=False)
+            number_of_product_in_cart = order.get_cart_items
+        else:
+            number_of_product_in_cart = 0
+
         params = {'product': product, 'range':range(1,n), 'n':n, 'number_of_product_in_cart': number_of_product_in_cart}
 
     else:
@@ -179,8 +201,13 @@ def toy(request):
     
     if request.user.is_authenticated:
         customer = request.user
-        order,created = Order.objects.get_or_create(customer=customer, complete=False)
-        number_of_product_in_cart = order.get_cart_items
+
+        if Order.objects.filter(customer=customer,complete=False).count():
+            order = Order.objects.get(customer=customer,complete=False)
+            number_of_product_in_cart = order.get_cart_items
+        else:
+            number_of_product_in_cart = 0
+
         params = {'product': product, 'range':range(1,n), 'n':n, 'number_of_product_in_cart': number_of_product_in_cart}
 
     else:
@@ -197,8 +224,13 @@ def medicine(request):
     
     if request.user.is_authenticated:
         customer = request.user
-        order,created = Order.objects.get_or_create(customer=customer, complete=False)
-        number_of_product_in_cart = order.get_cart_items
+
+        if Order.objects.filter(customer=customer,complete=False).count():
+            order = Order.objects.get(customer=customer,complete=False)
+            number_of_product_in_cart = order.get_cart_items
+        else:
+            number_of_product_in_cart = 0
+
         params = {'product': product, 'range':range(1,n), 'n':n, 'number_of_product_in_cart': number_of_product_in_cart}
 
     else:
@@ -214,8 +246,13 @@ def stationery(request):
     
     if request.user.is_authenticated:
         customer = request.user
-        order,created = Order.objects.get_or_create(customer=customer, complete=False)
-        number_of_product_in_cart = order.get_cart_items
+
+        if Order.objects.filter(customer=customer,complete=False).count():
+            order = Order.objects.get(customer=customer,complete=False)
+            number_of_product_in_cart = order.get_cart_items
+        else:
+            number_of_product_in_cart = 0
+
         params = {'product': product, 'range':range(1,n), 'n':n, 'number_of_product_in_cart': number_of_product_in_cart}
 
     else:
@@ -231,8 +268,13 @@ def pet(request):
     
     if request.user.is_authenticated:
         customer = request.user
-        order,created = Order.objects.get_or_create(customer=customer, complete=False)
-        number_of_product_in_cart = order.get_cart_items
+
+        if Order.objects.filter(customer=customer,complete=False).count():
+            order = Order.objects.get(customer=customer,complete=False)
+            number_of_product_in_cart = order.get_cart_items
+        else:
+            number_of_product_in_cart = 0
+
         params = {'product': product, 'range':range(1,n), 'n':n, 'number_of_product_in_cart': number_of_product_in_cart}
 
     else:
@@ -248,8 +290,13 @@ def electric(request):
     
     if request.user.is_authenticated:
         customer = request.user
-        order,created = Order.objects.get_or_create(customer=customer, complete=False)
-        number_of_product_in_cart = order.get_cart_items
+
+        if Order.objects.filter(customer=customer,complete=False).count():
+            order = Order.objects.get(customer=customer,complete=False)
+            number_of_product_in_cart = order.get_cart_items
+        else:
+            number_of_product_in_cart = 0
+
         params = {'product': product, 'range':range(1,n), 'n':n, 'number_of_product_in_cart': number_of_product_in_cart}
 
     else:
@@ -265,8 +312,13 @@ def meat(request):
     
     if request.user.is_authenticated:
         customer = request.user
-        order,created = Order.objects.get_or_create(customer=customer, complete=False)
-        number_of_product_in_cart = order.get_cart_items
+
+        if Order.objects.filter(customer=customer,complete=False).count():
+            order = Order.objects.get(customer=customer,complete=False)
+            number_of_product_in_cart = order.get_cart_items
+        else:
+            number_of_product_in_cart = 0
+
         params = {'product': product, 'range':range(1,n), 'n':n, 'number_of_product_in_cart': number_of_product_in_cart}
 
     else:
@@ -282,8 +334,12 @@ def fish(request):
     
     if request.user.is_authenticated:
         customer = request.user
-        order,created = Order.objects.get_or_create(customer=customer, complete=False)
-        number_of_product_in_cart = order.get_cart_items
+        if Order.objects.filter(customer=customer,complete=False).count():
+            order = Order.objects.get(customer=customer,complete=False)
+            number_of_product_in_cart = order.get_cart_items
+        else:
+            number_of_product_in_cart = 0
+
         params = {'product': product, 'range':range(1,n), 'n':n, 'number_of_product_in_cart': number_of_product_in_cart}
 
     else:
@@ -411,29 +467,38 @@ def handleLogout(request):
 
 
 def cart(request):
-    if request.user.is_authenticated:
-        customer = request.user
+
+    customer = request.user
+    if request.user.is_authenticated and Order.objects.filter(customer=customer,complete=False).count():
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
+
+        number_of_product_in_cart = order.get_cart_items
+        context = {'items':items, 'number_of_product_in_cart':number_of_product_in_cart, 'order':order}
+
     else:
-        items = []
-        order = {'get_cart_total':0}
-    
-    number_of_product_in_cart = order.get_cart_items
-    context = {'items':items, 'number_of_product_in_cart':number_of_product_in_cart, 'order':order}
+        number_of_product_in_cart = 0
+        context = {'number_of_product_in_cart':number_of_product_in_cart}
+
     return render(request, 'cart.html', context)
 
 
 def checkout(request):
 
-    if request.user.is_authenticated:
-        customer = request.user
+    customer = request.user
+    if request.user.is_authenticated and Order.objects.filter(customer=customer,complete=False).count():
+
         order,created = Order.objects.get_or_create(customer=customer, complete=False)
+        # order = Order.objects.get(customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
         number_of_product_in_cart = order.get_cart_items
+        context = {'items': items, 'order': order, 'cartItems': cartItems, 'number_of_product_in_cart': number_of_product_in_cart}
+    
+    else:
+        number_of_product_in_cart = 0
+        context = {'number_of_product_in_cart':number_of_product_in_cart}
 
-    context = {'items': items, 'order': order, 'cartItems': cartItems, 'number_of_product_in_cart': number_of_product_in_cart}
     return render(request, 'checkout.html', context)
 
 
@@ -448,6 +513,7 @@ def UpdateItem(request):
     product = Product.objects.get(product_id=product_id)
 
     order,created = Order.objects.get_or_create(customer=customer, complete=False)
+    # order = Order.objects.get(customer=customer, complete=False)
     orderItem,created = OrderItem.objects.get_or_create(order=order, product=product)
 
     if action=='add' and orderItem.quantity<5:
@@ -475,14 +541,16 @@ def processOrder(request):
     if request.user.is_authenticated:
         customer = request.user
         order,created = Order.objects.get_or_create(customer=customer, complete=False)
+        # order = Order.objects.get(customer=customer, complete=False)
         total = data['shipping']['total']
         order.transaction_id = transaction_id
 
         if float(total) == order.get_cart_total:
             order.complete = True
 
-
         order.save()
+
+        # Order.objects.filter(customer=customer).filter(complete=False).delete()
 
         ShippingAddress.objects.create(
 
@@ -502,4 +570,13 @@ def processOrder(request):
     else:
         print("not logged in")
         return JsonResponse('item added', safe=False)
+
+
+def view_order_admin(request):
+    customer_order = Order.objects.filter(delivered=False)
+    customer_order_items = OrderItem.objects.all()
+    n = Product.objects.all()
+    params = {'customer_order': customer_order, 'customer_order_items':customer_order_items,'n':n}
+    return render(request, 'view_order_admin.html', params)
+
     

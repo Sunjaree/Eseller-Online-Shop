@@ -1,0 +1,104 @@
+{% extends 'base.html' %} {% block title %} View Order {% endblock title %}
+
+
+{%block body %}
+
+
+<div class="overflow-scroll" style="height: 421px">
+  {% for i in customer_order %}
+
+
+  <div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingTwo-{{ forloop.counter }}">
+        <button
+          class="accordion-button collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#collapseTwo-{{ forloop.counter }}"
+          aria-expanded="false"
+          aria-controls="collapseTwo"
+        >
+
+        <i class="bi bi-boxes me-4" style="font-size: 30px"></i>
+
+        <strong>Name: 
+            {{i.customer.username}}
+            ({{i.customer.email}})
+            <br>
+            
+        </strong> 
+
+
+        </button>
+      </h2>
+      <div
+        id="collapseTwo-{{ forloop.counter }}"
+        class="accordion-collapse collapse"
+        aria-labelledby="headingTwo"
+        data-bs-parent="#accordionExample-{{ forloop.counter }}"
+      >
+        <div class="accordion-body">
+               
+
+
+            <table class="table">
+                <thead>
+                  <tr>
+
+                    <th scope="col" class="table-warning">Products</th>
+                    <th scope="col" class="table-warning">Count</th>
+                    <th scope="col" class="table-warning">Price</th>
+                    <th scope="col" class="table-warning">Date Added</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+
+                {% for j in customer_order_items %}  
+                {% if i.customer.username == j.order.customer.username%}
+                  <tr>
+                    <td class="table-dark">{{j.product.product_name}}</td>
+                    <td class="table-dark">{{j.quantity}}</td>
+                    <td class="table-dark">{{j.product.price}}</td>
+                    <td class="table-dark">{{j.date_added}}</td>
+                  </tr>
+                {% endif %}
+                {%endfor%}
+                </tbody>
+              </table>
+
+             
+
+                {% if i.complete == True %}
+                <button type="button" class="btn btn-success"><b>Paid: </b> <i class="bi bi-check-square-fill ms-2" style="font-size: 30px"></i></i></button>
+                    
+                {%endif%} 
+
+                {% if i.complete == False %}
+                <button type="button" class="btn btn-danger"><b>Paid: </b> <i class="bi bi-x-square-fill ms-2" style="font-size: 30px"></i></i></button>
+                {%endif%}
+                
+
+
+                <button type="button" class="btn btn-warning"><i class="bi bi-truck me-2" style="font-size: 30px"></i><b>  Make Delivery</b></button>
+
+            
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+  {% endfor %}
+</div>
+
+{% endblock body %}

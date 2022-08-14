@@ -47,6 +47,7 @@ urlpatterns = [
     path("update_item", views.UpdateItem, name="update_item"),
     path("process_order",views.processOrder, name="process_order"),
 
+    path("view_order_admin",views.view_order_admin, name="view_order_admin"),
 
 
 
