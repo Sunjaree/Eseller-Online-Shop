@@ -3,6 +3,7 @@ from django.urls import path, include
 from home import views
 
 urlpatterns = [
+    
     path("", views.index, name='home'),
     path("about", views.about, name='about'),
     path("contact", views.contact, name='contact'),
@@ -30,7 +31,6 @@ urlpatterns = [
     path("cart", views.cart, name='cart'),
     path("checkout", views.checkout, name='checkout'),
 
-
     # for delete and Update
     path("delete_product/<int:product_id>", views.delete_product, name='delete_product'),
     path("update_product/<int:product_id>", views.update_product, name='update_product'),
@@ -42,13 +42,11 @@ urlpatterns = [
     path("replies_contact_admin",views.replies_contact_admin, name='replies_contact_admin'),
     path("deleteEmails_Sent_replies_admin/<int:message_id>",views.deleteEmails_Sent_replies_admin, name='deleteEmails_Sent_replies_admin'),
 
-
     path("cart", views.cart, name="cart"),
     path("update_item", views.UpdateItem, name="update_item"),
     path("process_order",views.processOrder, name="process_order"),
 
     path("view_order_admin",views.view_order_admin, name="view_order_admin"),
-
-
+    path("deliver_order/<str:transaction_id>", views.deliver_order, name='deliver_order'),
 
 ]

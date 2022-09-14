@@ -11,7 +11,7 @@ from django.core.mail import send_mail
 
 from django.db import models
 from django.http import JsonResponse
-import json
+import json # JavaScript Object Notation
 
 
 
@@ -54,7 +54,7 @@ def about(request):
 def contact(request):
     
     params = {}
-    if request.user.is_authenticated:
+    if request.user.is_authenticated: #is_authenticated is a function and returns boolean value
         customer = request.user
 
         if Order.objects.filter(customer=customer,complete=False).count():
@@ -79,12 +79,12 @@ def contact(request):
 
 
 # Admin Contact view
-@login_required(login_url='/login')
+@login_required(login_url='/login') #decorator
 def contact_admin(request):
     if request.user.is_superuser :
       contact = Contact.objects.all().filter(is_replied=False).order_by('-date')
       n = Contact.objects.count()
-      params = {'contact': contact, 'n':1}
+      params = {'contact': contact, 'n':n}
       return render(request,'contact_admin.html',params)
 
     else:
@@ -103,7 +103,7 @@ def sendEmails_contact_admin(request,message_id):
             message,
             'eseller.sunjare@gmail.com',
             [recipient],
-            fail_silently=False
+            fail_silently=False #we will not get error message if the meesage failed to sent
         )
 
         contact = Contact.objects.get(pk=message_id)
@@ -352,7 +352,7 @@ def fish(request):
 
 #Add Product
 def add_product(request):
-    if request.method=='POST':
+    if request.method=='POST': #is true when request method is POST and the from was submitted by user
         product_name = request.POST['product_name']
         product_category = request.POST['product_category']
         product_price = request.POST['product_price']
@@ -470,7 +470,7 @@ def cart(request):
 
     customer = request.user
     if request.user.is_authenticated and Order.objects.filter(customer=customer,complete=False).count():
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        order = Order.objects.get(customer=customer, complete=False)
         items = order.orderitem_set.all()
 
         number_of_product_in_cart = order.get_cart_items
@@ -503,7 +503,7 @@ def checkout(request):
 
 
 def UpdateItem(request):
-    data = json.loads(request.body)
+    data = json.loads(request.body) #data is a variable and stores all the information from json data container
     product_id = data['product_id']
     action = data['action']
     print("Action: ",action)
@@ -513,7 +513,6 @@ def UpdateItem(request):
     product = Product.objects.get(product_id=product_id)
 
     order,created = Order.objects.get_or_create(customer=customer, complete=False)
-    # order = Order.objects.get(customer=customer, complete=False)
     orderItem,created = OrderItem.objects.get_or_create(order=order, product=product)
 
     if action=='add' and orderItem.quantity<5:
@@ -541,11 +540,10 @@ def processOrder(request):
     if request.user.is_authenticated:
         customer = request.user
         order,created = Order.objects.get_or_create(customer=customer, complete=False)
-        # order = Order.objects.get(customer=customer, complete=False)
-        total = data['shipping']['total']
+        total = data['total']
         order.transaction_id = transaction_id
 
-        if float(total) == order.get_cart_total:
+        if float(total) == order.get_cart_total:  
             order.complete = True
 
         order.save()
@@ -578,5 +576,13 @@ def view_order_admin(request):
     n = Product.objects.all()
     params = {'customer_order': customer_order, 'customer_order_items':customer_order_items,'n':n}
     return render(request, 'view_order_admin.html', params)
+
+
+def deliver_order(request, transaction_id):
+
+    order = Order.objects.get(transaction_id=transaction_id)
+    order.delivered = True
+    order.save()
+    return redirect("/")
 
     
