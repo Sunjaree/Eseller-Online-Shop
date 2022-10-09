@@ -49,4 +49,6 @@ urlpatterns = [
     path("view_order_admin",views.view_order_admin, name="view_order_admin"),
     path("deliver_order/<str:transaction_id>", views.deliver_order, name='deliver_order'),
 
+    path("search", views.search, name='search'),
+
 ]

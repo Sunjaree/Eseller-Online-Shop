@@ -1,0 +1,58 @@
+{% extends 'base.html' %} {% block title %} Search Items {% endblock title %}
+{% block body %}
+
+
+
+
+{% if n > 0 %}
+    <div class="album py-2 bg-gradient mt-2 me-2">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+                {% for i in prod %}
+
+                <div class="col">
+                    <div class="card shadow-sm product_data">
+                        <img src="{{i.image}}" width="420px" height="300px"/>
+
+
+                        <div class="card-body">
+                            <h4 class="card-title">{{i.product_name}}</h4>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                Category: {{i.category}}
+                            </h6>
+                            <p class="card-text">{{i.description}}</p>
+
+                            <div class="buy d-flex justify-content-between align-items-center">
+                                <div class="price text-success">
+                                    <h5 class="mt-4">Price: {{i.price}} BDT</h5>
+                                </div>
+    
+    
+                                
+                                <button data-product="{{i.product_id}}"" data-action="add" class="btn btn-danger add-btn update-cart" style="height:100%;">
+                                        <i class="fa fa-shopping-cart"></i> Add to Cart</button>
+                            </div>
+                        </div>
+
+
+                    </div>    
+                </div>
+
+
+                {%endfor%}
+
+            </div>
+        </div>
+    </div>
+
+
+    {%else%}
+    <div class="p-5 mt-5 mb-5 bg-warning text-black text-center my-0">
+        <h2><b>Sorry, No Product is Available Right Now !!!</b></h2>
+    </div>
+    {%endif%}  
+
+
+
+{% endblock body %}

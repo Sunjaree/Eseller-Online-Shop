@@ -36,6 +36,32 @@ def index(request):
     #return HttpResponse("Hi, How u doin?")
 
 
+
+
+
+def search(request):
+
+    query = request.GET['search']
+    prod = Product.objects.filter(product_name__icontains=query)
+    n = Product.objects.filter(product_name__icontains=query).count()
+
+    if request.user.is_authenticated:
+        customer = request.user
+
+        if Order.objects.filter(customer=customer,complete=False).count():
+            order = Order.objects.get(customer=customer,complete=False)
+            number_of_product_in_cart = order.get_cart_items
+        else:
+            number_of_product_in_cart = 0
+
+        params = {'prod': prod, 'number_of_product_in_cart': number_of_product_in_cart, 'n':n}
+
+    else:
+        params = {'prod': prod, 'n':n}
+    return render(request,'search.html',params)
+
+
+
 def about(request):
 
     customer = request.user
@@ -143,8 +169,7 @@ def deleteEmails_Sent_replies_admin(request,message_id):
         return redirect("replies_contact_admin")
 
 
-def search(request):
-    return HttpResponse("sfsbs")
+
 
 
 #For Poducts
@@ -503,7 +528,7 @@ def checkout(request):
 
 
 def UpdateItem(request):
-    data = json.loads(request.body) #data is a variable and stores all the information from json data container
+    data = json.loads(request.body) #data is a variable and stores all the information from json data array
     product_id = data['product_id']
     action = data['action']
     print("Action: ",action)
@@ -540,7 +565,7 @@ def processOrder(request):
     if request.user.is_authenticated:
         customer = request.user
         order,created = Order.objects.get_or_create(customer=customer, complete=False)
-        total = data['total']
+        total = data['shipping']['total']
         order.transaction_id = transaction_id
 
         if float(total) == order.get_cart_total:  
@@ -548,7 +573,7 @@ def processOrder(request):
 
         order.save()
 
-        # Order.objects.filter(customer=customer).filter(complete=False).delete()
+        Order.objects.filter(customer=customer).filter(complete=False).delete()
 
         ShippingAddress.objects.create(
 
@@ -562,6 +587,9 @@ def processOrder(request):
             address=data['shipping']['address'],
             
         )
+
+
+
 
         return JsonResponse('Payment Complete', safe=False)
 

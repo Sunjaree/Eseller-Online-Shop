@@ -20,7 +20,9 @@
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
+ 
   
+{% comment %} default code for AJAX csrf(Cross Site Request Forgery protection) token and making cookies   {% endcomment %}
 <script>
     var user = '{{request.user}}'
 
@@ -117,11 +119,12 @@
           </li>
         </ul>
 
-        <form class="d-flex mb-3 mt-3 me-5">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-          <!-- <button class="btn btn-outline-success" type="submit">Search</button> -->
-        </form>
 
+
+        <form method='get' action='/search' class="form-inline mb-3 me-5 mt-3">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" id="search">
+          
+        </form>
 
 
         {% if user.is_authenticated %}
@@ -342,12 +345,58 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <script>
 
   var updateBtns = document.getElementsByClassName('update-cart')
   for(var i=0; i<updateBtns.length; i++){
 
-      updateBtns[i].addEventListener('click', function(){
+      //addEventListener event handler to an element
+      updateBtns[i].addEventListener('click', function(){  
           var product_id = this.dataset.product
           var action = this.dataset.action
           console.log(product_id, action)
@@ -368,7 +417,7 @@
 
     var url = 'update_item'
 
-    fetch(url, {
+    fetch(url, { //it is an api request to the server and load the information on the webpage
 
       method: 'POST',
       headers:{
@@ -376,14 +425,10 @@
         'Content-Type' : 'application/json',
         'X-CSRFToken': csrftoken,
       },
-      body: JSON.stringify({'product_id': product_id, 'action':action})
+      body: JSON.stringify({'product_id': product_id, 'action':action}) //stringify method converts a JavaScript object or value to a JSON string
     })
 
-    .then((response) => {
-      return response.json()
-      
-    })
-
+    .then((response) => response.json())
     .then((data) => {
       console.log('data:', data)
       location.reload()
